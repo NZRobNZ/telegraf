@@ -1,0 +1,674 @@
+## -----------------------------------------------------------------------------
+[[inputs.snmp]]
+## -----------------------------------------------------------------------------
+## The following are taken from a QNAP TS-251 your results may vary.
+#  The QNAP OID file has been loaded to /var/lib/mibs/ietf/QNAP.mib on an Ubuntu
+#  system. OID results have been walked by # then translated via;
+#
+#      snmptranslate -m /var/lib/mibs/ietf/QNAP.mib 1.3.6.1.4.1.24681.1.3.15.1.2.1
+#
+#  I have included both the OID and the STRING below for clarity and flexibility
+#  and commented out stats I don’t use. There *are* other OIDs, they are just
+#  nonsensical in terms of my NAS configuration.
+#  Output can be tested with;
+#
+#     snmpget -v 2c -c {COMMUNITYSTRING} -O qv {NAS_IP_ADDR} 1.3.6.1.4.1.24681.1.3.15.1.2.1
+#
+## -----------------------------------------------------------------------------
+
+  agents = [ "{NAS_IP_ADDR}:161" ]
+  timeout = "5s"
+  retries = 3
+  version = 2
+  community = "{COMMUNITYSTRING}"
+  max_repetitions = 10
+
+  name = "QNAP NAS"
+
+## System CPU ------------------------------------------------------------------
+  [[inputs.snmp.field]]
+    name = "sysCPU"
+    oid = "1.3.6.1.4.1.24681.1.2.1.0"
+  # oid = "NAS-MIB::systemCPU-Usage.0"
+
+## NAS Details -----------------------------------------------------------------
+
+#  [[inputs.snmp.field]]
+#    name = "sysEnc_idx-EX"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.1.2.1.1.1"
+#  # oid = "NAS-MIB::ifIndexEX.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysEnc_ID"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.1.2.1.2.1"
+#  # oid = "NAS-MIB::enclosureID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysEnc_Model"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.1.2.1.3.1"
+  # oid = "NAS-MIB::enclosureModel.1"
+    is_tag = true
+
+  [[inputs.snmp.field]]
+    name = "sysEnc_SerialNo"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.1.2.1.4.1"
+  # oid = "NAS-MIB::enclosureSerialNum.1"
+
+  [[inputs.snmp.field]]
+    name = "sysEnc_Slots"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.1.2.1.5.1"
+  # oid = "NAS-MIB::enclosureSlot.1"
+
+  [[inputs.snmp.field]]
+    name = "sysEnc_Name"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.1.2.1.6.1"
+  # oid = "NAS-MIB::enclosureName.1"
+    is_tag = true
+
+## System Temp -----------------------------------------------------------------
+  [[inputs.snmp.field]]
+    name = "sysEnc_Temp"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.1.2.1.7.1"
+  # oid = "NAS-MIB::enclosureSystemTemp.1"
+
+## System Fan ------------------------------------------------------------------
+
+#  [[inputs.snmp.field]]
+#    name = "sysFan_idx"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.2.2.1.1.1"
+#  # oid = "NAS-MIB::systemFanIndex.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysFan_ID"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.2.2.1.2.1"
+#  # oid = "NAS-MIB::systemFanID.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysFan_EncID"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.2.2.1.3.1"
+#  # oid = "NAS-MIB::systemFanEnclosureID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysFan_Status"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.2.2.1.4.1"
+  # oid = "NAS-MIB::systemFanStatus.1"
+
+  [[inputs.snmp.field]]
+    name = "sysFan_Speed"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.2.2.1.5.1"
+  # oid = "NAS-MIB::systemFanSpeed.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysFan_idx_1"
+#    oid = "1.3.6.1.4.1.24681.1.2.15.1.1.1"
+#  # oid = "NAS-MIB::sysFanIndex.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysFan_Name_1"
+#    oid = "1.3.6.1.4.1.24681.1.2.15.1.2.1"
+#  #   oid = "NAS-MIB::sysFanDescr.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysFan_Speed_1"
+#    oid = "1.3.6.1.4.1.24681.1.2.15.1.3.1"
+#  # oid = "NAS-MIB::sysFanSpeed.1"
+
+## Power Info ------------------------------------------------------------------
+
+#  [[inputs.snmp.field]]
+#    name = "sysPwr_idx_1"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.3.2.1.1.1"
+#  # oid = "NAS-MIB::systemPowerIndex.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysPwr_ID_1"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.3.2.1.2.1"
+#  # oid = "NAS-MIB::systemPowerID.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysPwr_EncID_1"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.3.2.1.3.1"
+#  # oid = "NAS-MIB::systemPowerEnclosureID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysPwr_Status_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.3.2.1.4.1"
+  # oid = "NAS-MIB::systemPowerStatus.1"
+  ## Normal(0) Failed(1)
+
+#  [[inputs.snmp.field]]
+#    name = "sysPwr_Fan_1"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.3.2.1.5.1"
+#  # oid = "NAS-MIB::systemPowerFanSpeed.1"
+#  ## Not Present(-1)
+
+#  [[inputs.snmp.field]]
+#    name = "sysPwr_Temp_1"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.3.2.1.6.1"
+#  # oid = "NAS-MIB::systemPowerTemp.1"
+#  ## Not Present(-1)
+
+
+## CPU Info --------------------------------------------------------------------
+
+#  [[inputs.snmp.field]]
+#    name = "sysCPU_idx1"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.4.3.1.1.1"
+#  # oid = "NAS-MIB::cpuIndex.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysCPU_idx2"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.4.3.1.1.2"
+#  # oid = "NAS-MIB::cpuIndex.2"
+
+#  [[inputs.snmp.field]]
+#    name = "sysCPU_ID1"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.4.3.1.2.1"
+#  # oid = "NAS-MIB::cpuID.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysCPU_ID2"
+#    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.4.3.1.2.2"
+#  # oid = "NAS-MIB::cpuID.2"
+
+  [[inputs.snmp.field]]
+    name = "sysCPU_Usg1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.4.3.1.3.1"
+  # oid = "NAS-MIB::cpuUsage.1"
+
+  [[inputs.snmp.field]]
+    name = "sysCPU_Usg2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.4.3.1.3.2"
+  # oid = "NAS-MIB::cpuUsage.2"
+
+
+## Network Interfaces ----------------------------------------------------------
+
+#  [[inputs.snmp.field]]
+#    name = "sysNW1_idx"
+#    oid = "1.3.6.1.4.1.24681.1.2.9.1.1.1"
+#  # oid = "NAS-MIB::ifIndex.1"
+
+  [[inputs.snmp.field]]
+    name = "sysNW1_Desc"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.2.1"
+  # oid = "NAS-MIB::ifDescr.1"
+
+  [[inputs.snmp.field]]
+    name = "sysNW1_PktRcvd"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.3.1"
+  # oid = "NAS-MIB::ifPacketsReceived.1"
+
+  [[inputs.snmp.field]]
+    name = "sysNW1_PktSent"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.4.1"
+  # oid = "NAS-MIB::ifPacketsSent.1"
+
+  [[inputs.snmp.field]]
+    name = "sysNW1_PktErr"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.5.1"
+  # oid = "NAS-MIB::ifErrorPackets.1"
+
+#  [[inputs.snmp.field]]
+#    name = "sysNW2_idx"
+#    oid = "1.3.6.1.4.1.24681.1.2.9.1.1.2"
+#  # oid = "NAS-MIB::ifIndex.1"
+
+  [[inputs.snmp.field]]
+    name = "sysNW2_Desc"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.2.2"
+  # oid = "NAS-MIB::ifDescr.2"
+
+  [[inputs.snmp.field]]
+    name = "sysNW2_PktRcvd"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.3.2"
+  # oid = "NAS-MIB::ifPacketsReceived.2"
+
+  [[inputs.snmp.field]]
+    name = "sysNW2_PktSent"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.4.2"
+  # oid = "NAS-MIB::ifPacketsSent.2"
+
+  [[inputs.snmp.field]]
+    name = "sysNW2_PktErr"
+    oid = "1.3.6.1.4.1.24681.1.2.9.1.5.2"
+  # oid = "NAS-MIB::ifErrorPackets.2"
+
+
+## RAID Info -------------------------------------------------------------------
+
+  [[inputs.snmp.field]]
+    name = "sysRAID_idx"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.1.2.1.1.1"
+  # oid = "NAS-MIB::raidIndex.1"
+
+  [[inputs.snmp.field]]
+    name = "sysRAID_ID"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.1.2.1.2.1"
+  # oid = "NAS-MIB::raidID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysRAID_Cap"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.1.2.1.3.1"
+  # oid = "NAS-MIB::raidCapacity.1"
+  ## Expressed in bytes
+
+  [[inputs.snmp.field]]
+    name = "sysRAID_Free"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.1.2.1.4.1"
+  # oid = "NAS-MIB::raidFreeSize.1"
+
+  [[inputs.snmp.field]]
+    name = "sysRAID_Status"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.1.2.1.5.1"
+  # oid = "NAS-MIB::raidStatus.1"
+  ## "Ready" and {Probably Other Things}
+
+  [[inputs.snmp.field]]
+    name = "sysRAID_Bitmap"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.1.2.1.6.1"
+  # oid = "NAS-MIB::raidBitmap.1"
+
+  [[inputs.snmp.field]]
+    name = "sysRAID_Level"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.1.2.1.7.1"
+  # oid = "NAS-MIB::raidLevel.1"
+
+
+## Disk Volume Info ------------------------------------------------------------
+
+  [[inputs.snmp.field]]
+    name = "sysVol_idx"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.1.1.1"
+  # oid = "NAS-MIB::volumeIndex.1"
+
+  [[inputs.snmp.field]]
+    name = "sysVol_ID"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.1.2.1"
+  # oid = "NAS-MIB::volumeID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysVol_Cap"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.1.3.1"
+  # oid = "NAS-MIB::volumeCapacity.1"
+  ## Expressed in bytes
+
+  [[inputs.snmp.field]]
+    name = "sysVol_Free"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.1.4.1"
+  # oid = "NAS-MIB::volumeFreeSize.1"
+  ## Expressed in bytes
+
+  [[inputs.snmp.field]]
+    name = "sysVol_Status"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.1.5.1"
+  # oid = "NAS-MIB::volumeStatus.1"
+  ## "Ready" and {Probably Other Things}
+
+  [[inputs.snmp.field]]
+    name = "sysVol_SSDCache"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.6.1"
+  # oid = "NAS-MIB::volumeSSDCache.1"
+
+  [[inputs.snmp.field]]
+    name = "sysVol_Thin"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.1.7.1"
+  # oid = "NAS-MIB::volumeThin.1"
+
+  [[inputs.snmp.field]]
+    name = "sysVol_Name"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.2.3.2.1.8.1"
+  # oid = "NAS-MIB::volumeName.1"
+
+## Disk Info -------------------------------------------------------------------
+
+  [[inputs.snmp.field]]
+    name = "sysVol_idx"
+    oid = "1.3.6.1.4.1.24681.1.2.17.1.1.1"
+  # oid = "NAS-MIB::sysVolumeIndex.1"
+
+  [[inputs.snmp.field]]
+    name = "sysVol_Desc"
+    oid = "1.3.6.1.4.1.24681.1.2.17.1.2.1"
+  # oid = "NAS-MIB::sysVolumeDescr.1"
+
+  [[inputs.snmp.field]]
+    name = "sysVol_FileSys"
+    oid = "1.3.6.1.4.1.24681.1.2.17.1.3.1"
+  # oid = "NAS-MIB::sysVolumeFS.1"
+
+  [[inputs.snmp.field]]
+    name = "sysVol_TotSize"
+    oid = "1.3.6.1.4.1.24681.1.2.17.1.4.1"
+  # oid = "NAS-MIB::sysVolumeTotalSize.1"
+  ## Expressed as a String
+
+  [[inputs.snmp.field]]
+    name = "sysVol_FreeSize"
+    oid = "1.3.6.1.4.1.24681.1.2.17.1.5.1"
+  # oid = "NAS-MIB::sysVolumeFreeSize.1"
+  ## Expressed as a String
+
+  [[inputs.snmp.field]]
+    name = "sysVol_Status"
+    oid = "1.3.6.1.4.1.24681.1.2.17.1.6.1"
+  # oid = "NAS-MIB::sysVolumeStatus.1"
+  ## "Ready" and {Probably Other Things}
+
+#  #----------------------------------------
+#  [[inputs.snmp.field]]
+#    name = "sysVol_idxEX"
+#    oid = "1.3.6.1.4.1.24681.1.3.17.1.1.1"
+#  # oid = "NAS-MIB::sysVolumeIndexEX.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysVol_DescEX"
+#    oid = "1.3.6.1.4.1.24681.1.3.17.1.2.1"
+#  # oid = "NAS-MIB::sysVolumeDescrEX.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysVol_FileSysEX"
+#    oid = "1.3.6.1.4.1.24681.1.3.17.1.3.1"
+#  # oid = "NAS-MIB::sysVolumeFSEX.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysVol_TotSizeEX"
+#    oid = "1.3.6.1.4.1.24681.1.3.17.1.4.1"
+#  # oid = "NAS-MIB::sysVolumeTotalSizeEX.1"
+#  ## Expressed in bytes
+#
+#  [[inputs.snmp.field]]
+#    name = "sysVol_FreeSizeEX"
+#    oid = "1.3.6.1.4.1.24681.1.3.17.1.5.1"
+#  # oid = "NAS-MIB::sysVolumeFreeSizeEX.1"
+#  ## Expressed in bytes
+#
+#  [[inputs.snmp.field]]
+#    name = "sysVol_StatusEX"
+#    oid = "1.3.6.1.4.1.24681.1.3.17.1.6.1"
+#  # oid = "NAS-MIB::sysVolumeStatusEX.1"
+#  ## "Ready" and {Probably Other Things}
+#  #----------------------------------------
+
+## Disk Performance ------------------------------------------------------------
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Perf_idx"
+    oid = "1.3.6.1.4.1.24681.1.4.1.11.5.6.2.1.1.1"
+  # oid = "NAS-MIB::diskPerformanceIndex.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_blvID"
+    oid = "1.3.6.1.4.1.24681.1.4.1.11.5.6.2.1.2.1"
+  # oid = "NAS-MIB::blvID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_IOps"
+    oid = "1.3.6.1.4.1.24681.1.4.1.11.5.6.2.1.3.1"
+  # oid = "NAS-MIB::iops.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Latency"
+    oid = "1.3.6.1.4.1.24681.1.4.1.11.5.6.2.1.4.1"
+  # oid = "NAS-MIB::latency.1"
+
+## Disk Physical ---------------------------------------------------------------
+
+#  [[inputs.snmp.field]]
+#    name = ""
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.yy.nn"
+## Where nn is the disk/drive bay number and yy is the 'record' to return
+#  # oid = ""
+
+## This OID returns mainly strings which are not entirely useful for monitoring
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_idx1"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.1.1"
+#  # oid = "NAS-MIB::hdIndex.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Desc1"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.2.1"
+#  # oid = "NAS-MIB::hdDescr.1"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Temp1"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.3.1"
+#  # oid = "NAS-MIB::hdTemperature.1"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Status1"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.4.1"
+#  # oid = "NAS-MIB::hdStatus.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Model1"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.5.1"
+#  # oid = "NAS-MIB::hdModel.1"
+#  ## Expressed as a string
+#  
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_CapStr1"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.6.1"
+#  # oid = "NAS-MIB::hdCapacity.1"
+#  ## Expressed as a string
+#  
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_SMART1"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.7.1"
+#  # oid = "NAS-MIB::hdSmartInfo.1"
+#  ## Expressed as a string "GOOD" "BAD" "Caution" "Unknown"
+#  #----------------------------------------
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_idx2"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.1.2"
+#  # oid = "NAS-MIB::hdIndex.2"
+#  
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Desc2"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.2.2"
+#  # oid = "NAS-MIB::hdDescr.2"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Temp2"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.3.2"
+#  # oid = "NAS-MIB::hdTemperature.2"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Status2"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.4.2"
+#  # oid = "NAS-MIB::hdStatus.2"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Model2"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.5.2"
+#  # oid = "NAS-MIB::hdModel.2"
+#  ## Expressed as a string
+#  
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_CapStr2"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.6.2"
+#  # oid = "NAS-MIB::hdCapacity.2"
+#  ## Expressed as a string
+#  
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_SMART2"
+#    oid = "1.3.6.1.4.1.24681.1.2.11.1.7.2"
+#  # oid = "NAS-MIB::hdSmartInfo.2"
+#  ## Expressed as a string "GOOD" "BAD" "Caution" "Unknown"
+#  #----------------------------------------
+  
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_idx_EX1"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.1.1"
+#  # oid = "NAS-MIB::hdIndexEX.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Desc_EX1"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.2.1"
+#  # oid = "NAS-MIB::hdDescrEX.1"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Temp_EX1"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.3.1"
+#  # oid = "NAS-MIB::hdTemperatureEX.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Status_EX1"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.4.1"
+#  # oid = "NAS-MIB::hdStatusEX.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Model_EX1"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.5.1"
+#  # oid = "NAS-MIB::hdModelEX.1"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Cap_EX1"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.6.1"
+#  # oid = "NAS-MIB::hdCapacityEX.1"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_SMART_EX1"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.7.1"
+#  # oid = "NAS-MIB::hdSmartInfoEX.1"
+#  ## Expressed as a string "GOOD" "BAD" "Caution" "Unknown"
+#  #----------------------------------------
+
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_idx_EX2"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.1.2"
+#  # oid = "NAS-MIB::hdIndexEX.2"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Desc_EX2"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.2.2"
+#  # oid = "NAS-MIB::hdDescrEX.2"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Temp_EX2"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.3.2"
+#  # oid = "NAS-MIB::hdTemperatureEX.2"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Status_EX2"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.4.2"
+#  # oid = "NAS-MIB::hdStatusEX.2"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Model_EX2"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.5.2"
+#  # oid = "NAS-MIB::hdModelEX.2"
+#  ## Expressed as a string
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_Cap_EX2"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.6.2"
+#  # oid = "NAS-MIB::hdCapacityEX.2"
+#
+#  [[inputs.snmp.field]]
+#    name = "sysDisk_Phy_SMART_EX2"
+#    oid = "1.3.6.1.4.1.24681.1.3.11.1.7.2"
+#  # oid = "NAS-MIB::hdSmartInfoEX.2"
+#  ## Expressed as a string "GOOD" "BAD" "Caution" "Unknown"
+#  #----------------------------------------
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_idx_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.1.1"
+  # oid = "NAS-MIB::diskIndex.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_ID_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.2.1"
+  # oid = "NAS-MIB::diskID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Enc_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.3.1"
+  # oid = "NAS-MIB::diskEnclosureID.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Summ_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.4.1"
+  # oid = "NAS-MIB::diskSummary.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_SMART_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.5.1"
+  # oid = "NAS-MIB::diskSmartInfo.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Temp_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.6.1"
+  # oid = "NAS-MIB::diskTemperture.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_GblSpare_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.7.1"
+  # oid = "NAS-MIB::diskGlobalSpare.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Model_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.8.1"
+  # oid = "NAS-MIB::diskModel.1"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Cap_1"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.9.1"
+  # oid = "NAS-MIB::diskCapacity.1"
+#  #----------------------------------------
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_idx_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.1.2"
+  # oid = "NAS-MIB::diskIndex.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_ID_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.2.2"
+  # oid = "NAS-MIB::diskID.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Enc_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.3.2"
+  # oid = "NAS-MIB::diskEnclosureID.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Summ_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.4.2"
+  # oid = "NAS-MIB::diskSummary.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_SMART_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.5.2"
+  # oid = "NAS-MIB::diskSmartInfo.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Temp_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.6.2"
+  # oid = "NAS-MIB::diskTemperture.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_GblSpare_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.7.2"
+  # oid = "NAS-MIB::diskGlobalSpare.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Model_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.8.2"
+  # oid = "NAS-MIB::diskModel.2"
+
+  [[inputs.snmp.field]]
+    name = "sysDisk_Phy_Cap_2"
+    oid = "1.3.6.1.4.1.24681.1.4.1.1.1.1.5.2.1.9.2"
+  # oid = "NAS-MIB::diskCapacity.2"
+#  #----------------------------------------
+## -----------------------------------------------------------------------------
